@@ -4,10 +4,10 @@ import time
 def main():
 
     #Instance
-    c = 750
-    V = np.array([135, 139, 149, 150, 156, 163, 173, 184, 192, 201, 210, 214, 221, 229, 240,])
-    P = np.array([ 70, 73, 77, 80, 82, 87, 90, 94, 98, 106, 110, 113, 115, 118, 120])
-
+    c = 750 # weight capacity
+    V = np.array([135, 139, 149, 150, 156, 163, 173, 184, 192, 201, 210, 214, 221, 229, 240,]) # values
+    P = np.array([ 70, 73, 77, 80, 82, 87, 90, 94, 98, 106, 110, 113, 115, 118, 120]) # weights
+    
     start = time.time()
     S_dp = dp(V, P, c)
     end = time.time()
@@ -20,13 +20,15 @@ def main():
     print(S_f)
     print(sum([V[i] for i in S_f]))
     print("Tempo: {} s".format(round(end - start, 5)))
-    
+
+# Fully Polynomial Time Approximation Scheme   
 def fptas(V, P, c, e):
     n = len(V)
     R = e*max(V)/n
     Vf = np.floor(V/R)
     return dp(Vf, P, c)
 
+# Dynamic Programming solution
 def dp(V, P, c):
     n = len(V)
     max_v = int(max(V))
@@ -34,7 +36,7 @@ def dp(V, P, c):
     S = []
     for i in range(n+1):
         S.append([])
-        for i in range(n*max_v+1):
+        for j in range(n*max_v+1):
             S[i].append([])
     
     for i in range(n+1):
@@ -58,4 +60,5 @@ def dp(V, P, c):
         if M[n,l] <= c:
             return S[n][l]
 
-main()
+if __name__ == '__main__':
+    main()
